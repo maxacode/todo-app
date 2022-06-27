@@ -18,10 +18,10 @@ function cj(variable) {
 };
 function ct(variable) {
     return console.table(variable);
-}
+};
 function cl(variable) {
     return console.log(variable);
-}
+};
 
 //my name diff color. 
 var myname = document.getElementById('my-name');
@@ -40,21 +40,39 @@ const apiUrl = "";
 const apiAllItmes = "/loadsavedtodo"
 const apiActions = "/addtodo/" // /addtodo/<action(notCompleted, completed, deleted)><singleTodo>
 const apiSave = "/save" 
+const apiLogLink = "/log"
 class API {
+    // api loggin with a post to apiLog
+    // static async apiLog(functionName, logData) {
+    //     const response = await fetch(apiLogLink, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             functionName: functionName,
+    //             logData: logData
+    //         })
+    //     });
+    //     const data = await response.json();
+    //     return data;
+    // }
+
     static async apiAllToDos() {
         // const response = await fetch(apiUrl+apiAllItmes);
         // const data = await response.json();
-        // create file if AllToDos.json doesnt exist
+       
          
         const fullURL = `${apiAllItmes}`;
-        // //const response = await fetch(fullURL);
+        //const response = await fetch(fullURL);
         // const response = await fetch(fullURL);
         // const data = await response;
          
         const data = await fetch(fullURL).then(function (response) { return response.json(); }).then(function(response) {return response});
-        //cl(data);
+        // cl(data);
         const fullData = data["Attempting"] + data["Result"];
-        cl(fullData);
+    
+        // cl(fullData);
         
 
 
@@ -69,12 +87,12 @@ class API {
     //API to add/complte or remove items. 
     static async apiActions(action, singleTodo) {
         const fullURL = `${apiUrl}${apiActions}${action}/${singleTodo}`;
-        // //const response = await fetch(fullURL);
+        //const response = await fetch(fullURL);
         // const response = await fetch(fullURL);
         // const data = await response;
          
         const data = await fetch(fullURL).then(function (response) { return response.json(); }).then(function(response) {return response});
-        //cl(data);
+        // cl(data);
         const fullData = data["Attempting"] + data["Result"];
         return fullData
         // cl("data var<>");
@@ -108,14 +126,14 @@ class API {
     // api call to save to file
     static async apiSave() {
         const fullURL = apiSave;
-        // //const response = await fetch(fullURL);
+        //const response = await fetch(fullURL);
         // const response = await fetch(fullURL);
         // const data = await response;
         const data = await fetch(fullURL).then(function (response) { return response.json(); }).then(function(response) {return response});
         //sconsole.log(data);
         //output.innerText = data;
         const fullData = data["Attempting"] + data["Result"];
-        cl("save then get TODO.")
+        // cl("save then get TODO.")
         return data
         
     }
@@ -140,19 +158,19 @@ class UI {
         // let p = new Promise((resolve, reject) => {
         //     let a = String(b).includes("notCompleted");
 
-        //     cl(a);
+            // cl(a);
         //     if (a=='true') {
         //         resolve('success');
         //     } else if (a=='false') {reject('Fial')}
         // })
-        // //const toDo = async apiAllToDos();
+         //const toDo = async apiAllToDos();
         // p.then((msg) => {
-        //     cl(msg);
+            // cl(msg);
         // }).catch((msg) => {
-        //     cl(msg);
+            // cl(msg);
         // });
         // let toDo = apiAllToDos();
-        // cl(toDo);
+         // cl(toDo);
         // toDo.forEach((singleTodo) =>
         //     UI.addItemToUI(singleTodo, "complete", ''));
     }
@@ -322,12 +340,12 @@ function returnToDoFromDeleted(e) {
 
         //console.log("todoItem: " + todoItem);
         API.apiActions("notCompleted",todoItem)
-        cl("sent to API NotCompleted")
+        // cl("sent to API NotCompleted")
         //Storage.addItemToStorage(todoItem);
         API.apiActions("removeCompleted",todoItem)
-        cl("sent to api removeCompleted")
+        // cl("sent to api removeCompleted")
         API.apiSave();
-        cl("sent to api save")
+        // cl("sent to api save")
         //Storage.removeToDoDeleted(todoItem);
         var li = e.target.parentElement;
         li.style.textDecoration = 'none';
@@ -365,14 +383,14 @@ itemList.addEventListener('click', (e) => {
             API.apiActions("removeNotCompleted", singleTodo)
                 .then(function (response) {
                     console.log(response);
-                    cl("341");
+                    // cl("341");
                     output.innerHTML = String(response) + "\n";
 
                     return API.apiActions("completed", singleTodo);
                 })
                 .then(function (response) {
                     console.log(response);
-                    cl("346");
+                    // cl("346");
                     output.innerText = String(response) + output.innerText;
 
                     return API.apiSave();
@@ -382,11 +400,11 @@ itemList.addEventListener('click', (e) => {
                     console.log(response);
                     output.innerText = String(response) + output.innerText;
                     
-                    cl("353");
+                    // cl("353");
                     
                 })
                 .then(function (response) {
-                    cl("Save checked");
+                    // cl("Save checked");
                 })
                 .catch(function (error) {
                     console.log("notChecked Error: " + error);
@@ -448,9 +466,9 @@ function deleteToDoFully(e) {
         const eParent  = String(e.target.previousElementSibling.classList);
         singleTodo = e.target.parentElement.innerText;
 
-        cl(eParent)
+        // cl(eParent)
         if (eParent.includes('complete')) {
-            cl("complete");
+            // cl("complete");
             itemList.removeChild(e.target.parentElement);
             // Storage.removeToDo(singleTodo);
             API.apiActions("removeNotCompleted", singleTodo);
@@ -458,11 +476,11 @@ function deleteToDoFully(e) {
             itemsCompleted.removeChild(e.target.parentElement);
             //Storage.removeToDoDeleted(singleTodo);
             API.apiActions("removeCompleted", singleTodo)
-        } else { cl("Nothing")};
+        } else { // cl("Nothing")};
         API.apiSave();
 
     }
-}
+}};
 
 document.querySelectorAll<"ul">addEventListener('click', (e) => {
     deleteToDoFully(e);
@@ -502,7 +520,7 @@ itemsCompleted.addEventListener('click', (e) => {
 
 function filter() {
     userInput = searchBox.value;
-    cl(userInput);
+    // cl(userInput);
     //console.log(allItems.length); 
     for (x = 0; x < allItems.length; x++) {
         if (allItems[x].innerText.toLowerCase().indexOf(userInput.toLowerCase()) == '-1') {
@@ -513,7 +531,7 @@ function filter() {
         }
         
     }
-}
+};
 
 
 
@@ -556,7 +574,7 @@ form.addEventListener('submit', (e) => {
     UI.addItemToUI(itemToAddFiltered, 'complete', '');
     //storing as a string just the text
     //Storage.addItemToStorage(itemToAdd);
-    cl(itemToAddFiltered);
+    // cl(itemToAddFiltered);
     API.apiActions("notCompleted", itemToAddFiltered);
     API.apiSave();
 

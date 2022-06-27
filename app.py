@@ -123,52 +123,101 @@ allToDo = 0
 
 lineBreak = "<br/>----------------------------------------------------------------<br/>"
 
+def timeNow():
+    second = datetime.now()
+    timee2 = second.hour, second.minute, second.second, second.microsecond
+    return f"^^^^^^ TIME: {timee2} ^^^^^"
+
+# logging config
+
+def setupLogging():
+    print("Starting Up program")
+ 
+    ## File logging:
+    logging.basicConfig(format= '%(levelname)s: %(asctime)s:%(message)s', filename="appLog.log", encoding="utf-8", level=logging.DEBUG,  datefmt='%m/%d/%A %I:%M:%S %p')
+
+    # logRequest = logging.basicConfig(format= '%(levelname)s: %(asctime)s:%(message)s', filename="webRequests.log", encoding="utf-8", level=logging.DEBUG,  datefmt='%m/%d/%A %I:%M:%S %p')
+    logging.info("<br/>----------------------------------------------------------------<br/>")
+    logging.info("@@@@@@@@@@")
+    logging.info(sys._getframe().f_code.co_name)
+    logging.info("@@@@@@@@@@")
+
+    logging.info("Logging Started At: " + datetime.time(datetime.now()).__str__())
+ 
+
+    # ch = logging.StreamHandler()
+    # logApp.addHandler(ch)
+    # logRequest.addHandler(ch)
+
+    # logApp.info(timeNow())
+    # logRequest.info(timeNow())
+
+
+setupLogging()
+# create file if AllToDos.json doesnt exist
+# if not os.path.exists(toDoFileName):
+#     with open(toDoFileName, 'w') as f:
+#         f.write("[]")
+#         f.close()
+
+with open(toDoFileName, 'w') as f:
+    f.write("{\"notCompleted\": [], \"completed\": [], \"deleted\": []}")
+
+
+# for logging from JS file
+@app.route('/log', methods=['POST'])
+def log():
+    logging.info("JSJSJSJSJJSJSJSJSJS")
+    logging.info(request.form['log'])
+    logging.info("JSJSJSJSJJSJSJSJSJS")
+
+    return "Success"
+
 @app.route('/')
 def index():
+    logging.debug(sys._getframe().f_code.co_name)
+
 #    return ls.render_template('index.html')
     data = request
-    app.logger.info(data)
-    # create file if AllToDos.json doesnt exist
-    import os
-    if not os.path.exists(toDoFileName):
-        with open(toDoFileName, 'w') as f:
-            f.write("{\"notCompleted\": [], \"completed\": [], \"deleted\": []}")
+    logging.info(data)
 
-    logging.warning(request)
+    logging.info(request)
     return render_template('index.html')
 
 # Get the current saved ToDos form File 
 @app.route('/loadsavedtodo')
 def loadSavedToDo():
-    print(" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& NEW RUN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-    print(sys._getframe().f_code.co_name)
-    print(timeNow())
+    logging.info(" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& NEW RUN &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+    logging.debug(sys._getframe().f_code.co_name)
+    logging.info(timeNow())
     #everyTimeRequest()
     return readFromFile()
 
 # Save contents to file. 
 @app.route('/save')
 def saveToFile():
-    print("save Sleep BEFORE")
+    logging.info("save Sleep BEFORE")
     #time.sleep(.5)
     global singleTodo2
 
-    print("save Sleep AFTER")
+    logging.info("save Sleep AFTER")
     
-    print(sys._getframe().f_code.co_name)
-    print(timeNow())
-    print("Saving now")
+    logging.info(sys._getframe().f_code.co_name)
+    logging.info(timeNow())
+    logging.info("Saving now")
     allToDo = combineNCD()
     writeToFile(allToDo)
-    print(f"Successfully Saved {singleTodo2}")
+    logging.info("JSJSJSJSJJSJSJ")
+
+    logging.info(f"Successfully Saved {singleTodo2}")
     dataToReturn = {"Attempting": "Save to file", "Result": singleTodo2}
     #return f"Attempting: {action} \n Result: {result} \n"
-    # print("Que after save")
-    # print(qLine)
-    # print("Que after Pop")
+    # logging.info("Que after save")
+    # logging.info(qLine)
+    # logging.info("Que after Pop")
     # qLine.pop(0)
     # qLine.pop(0)
-    # print(qLine)
+    # logging.info(qLine)
     return dataToReturn
     #return f"Successfully Saved {singleTodo}"
      
@@ -182,16 +231,16 @@ def saveToFile():
 qLine = []
 @app.route('/addtodo/<string:classNCD>/<string:singleTodo>')
 def addTodo(classNCD, singleTodo):
-    print("Que before append")
-    # print(qLine)
-    # print("Que after append")
+    logging.info("Que before append")
+    # logging.info(qLine)
+    # logging.info("Que after append")
     # qLine.append((classNCD,singleTodo))
-    # print(qLine)
+    # logging.info(qLine)
 
     #saveToFile(singleTodo)
     global singleTodo2
     singleTodo2 = singleTodo
-    print(sys._getframe().f_code.co_name)
+    logging.info(sys._getframe().f_code.co_name)
     #everyTimeRequest()
     action = "NULL"
     result = "NULL"
@@ -214,27 +263,26 @@ def addTodo(classNCD, singleTodo):
     else:
         action = "ELSE AddTODO"
     #allToDo = combineNCD()
-    #print(" --- after COmbineNCD 129 --- ")
-    #print(allToDo)
+    #logging.info(" --- after COmbineNCD 129 --- ")
+    #logging.info(allToDo)
     # writeToFile(allToDo)
-    # print(" --- after write to file 132 --- ")
-    # print(allToDo)
-    print(f"Attempting: {action} \n Result: {result} \n")
-    print(" @@@@@ DONE?? ")
+    # logging.info(" --- after write to file 132 --- ")
+    # logging.info(allToDo)
+    logging.info("JSJSJSJSJJSJSJ")
+    logging.info(f"Attempting: {action} | Result: {result} \n")
+    logging.info(" @@@@@ DONE?? ")
+    saveToFile()
     dataToReturn = {"Attempting": action, "Result": result}
     #return f"Attempting: {action} \n Result: {result} \n"
     return dataToReturn
     # Current ToDo's: {readFromFile('endpoint')} \n {lineBreak}"
 
-def timeNow():
-    second = datetime.now()
-    timee2 = second.minute, second.second, second.microsecond
-    return f"^^^^^^ TIME: {timee2} ^^^^^"
+
 
 # !! Function to read the file contents and assemble on every request
 def everyTimeRequest():
-    print(sys._getframe().f_code.co_name)
-    print(timeNow())
+    logging.info(sys._getframe().f_code.co_name)
+    logging.info(timeNow())
     
   #read data from file
     global notCompleted, completed, deleted 
@@ -243,10 +291,10 @@ def everyTimeRequest():
 
 # !! Function to read all the JSON data from File
 def readFromFile(sourceFunction=None):
-    print(sys._getframe().f_code.co_name)
-    print(" --- start of readFromFile 150 --- ")
-    print(allToDo)
-    print(timeNow())
+    logging.info(sys._getframe().f_code.co_name)
+    logging.info(" --- start of readFromFile 150 --- ")
+    logging.info(allToDo)
+    logging.info(timeNow())
     global notCompleted, completed, deleted 
 
     with open(toDoFileName, encoding='utf-8-sig', errors='ignore') as r:
@@ -255,25 +303,25 @@ def readFromFile(sourceFunction=None):
             notCompleted = data['notCompleted']
             completed = data['completed']
             deleted = data['deleted']
-            print("Done reading from File ")
-            print(data)
+            logging.info("Done reading from File ")
+            logging.info(data)
             return data
         except Exception as e:
-            print("error reading from file: \n " + str(e))
-            print(timeNow())
+            logging.info("error reading from file: \n " + str(e))
+            logging.info(timeNow())
 
             return [], [], []
         
         # if sourceFunction == "endpoint":
-        #     print(" --- endpoint readFromFile 159 --- ")
-        #     print(data)
-        #     print(timeNow())
+        #     logging.info(" --- endpoint readFromFile 159 --- ")
+        #     logging.info(data)
+        #     logging.info(timeNow())
 
         #     return data
         # else:
-        #     print(" --- else 163 --- ")
-        #     print(data)
-        #     print(timeNow())
+        #     logging.info(" --- else 163 --- ")
+        #     logging.info(data)
+        #     logging.info(timeNow())
         #     return data["notCompleted"], data["completed"], data["deleted"]
     
             
@@ -281,17 +329,17 @@ def readFromFile(sourceFunction=None):
             
 # !!function to write to file the finished JSON data
 def writeToFile(allToDo):
-    print(sys._getframe().f_code.co_name)
-    print(" --- write to fil 174 --- ")
-    print(allToDo)
-    print(timeNow())
+    logging.info(sys._getframe().f_code.co_name)
+    logging.info(" --- write to fil 174 --- ")
+    logging.info(allToDo)
+    logging.info(timeNow())
 
     try:
         with open(toDoFileName, "w") as r:
             j = json.dumps(allToDo)
-            print(" --- json.dumps alltodo 179 --- ")
-            print(j)
-            print(timeNow())
+            logging.info(" --- json.dumps alltodo 179 --- ")
+            logging.info(j)
+            logging.info(timeNow())
 
             r.write(j)
     except Exception as e:
@@ -301,22 +349,22 @@ def writeToFile(allToDo):
 
 # !! Function to add to notCompleted
 def addToNotCompleted(singleToDo):
-    print(sys._getframe().f_code.co_name)
-    print(timeNow())
+    logging.info(sys._getframe().f_code.co_name)
+    logging.info(timeNow())
     notCompleted.insert(0,singleToDo)
     return "addToNotCompleted Successfully"
 
 # !! Function to add to completed
 def addToCompleted(singleToDo):
-    print(sys._getframe().f_code.co_name)
-    print(timeNow())
+    logging.info(sys._getframe().f_code.co_name)
+    logging.info(timeNow())
     completed.insert(0, singleToDo)
     return "addToCompleted Successfully"
 
 # !! Function to add to deleted
 def addToDeleted(singleToDo):
-    print(sys._getframe().f_code.co_name)
-    print(timeNow())
+    logging.info(sys._getframe().f_code.co_name)
+    logging.info(timeNow())
     deleted.insert(0, singleToDo)
     return "addToDeleted Successfully"
 
@@ -324,8 +372,8 @@ def addToDeleted(singleToDo):
 
 # !! Function that takes in a TODo and a Class (notCompleted, completed, deleted) and adds it to class
 def addSingleTodo(whereTo, singleToDo):
-    print(sys._getframe().f_code.co_name)
-    print(timeNow())
+    logging.info(sys._getframe().f_code.co_name)
+    logging.info(timeNow())
     if whereTo == "notCompleted":
         #return addToNotCompleted(singleToDo)
         notCompleted.insert(0,singleToDo)
@@ -341,28 +389,28 @@ def addSingleTodo(whereTo, singleToDo):
         return "addToDeleted Successfully"
 
     else:
-        print("ERROR in addSingleToDo Funciton")  
+        logging.info("ERROR in addSingleToDo Funciton")  
         return "error in addSingleToDo Funciton"
 
 
 # !! Function that takes in a TODO and Class (notCompleted, completed, deleted) and removed is form Class
 def removeSingleTodo(whereFrom, singleToDo):
-    print(sys._getframe().f_code.co_name)
-    print(timeNow())
+    logging.info(sys._getframe().f_code.co_name)
+    logging.info(timeNow())
     global notCompleted, completed, deleted
     try: 
         if whereFrom == "notCompleted":
-            print('!!!!!!!!!!!! Remving from NotCompleted')
+            logging.info('!!!!!!!!!!!! Remving from NotCompleted')
             notCompleted.remove(singleToDo)
             #addSingleTodo("deleted", singleToDo)
-            print(notCompleted)
-            print(timeNow())
+            logging.info(notCompleted)
+            logging.info(timeNow())
 
             return "Removed Successfully #notCompleted"
         elif whereFrom == "completed":
             completed.remove(singleToDo)
-            print(completed)
-            print(timeNow())
+            logging.info(completed)
+            logging.info(timeNow())
             #addSingleTodo("deleted", singleToDo)
 
             return "Removed Successfully #completed"
@@ -370,48 +418,46 @@ def removeSingleTodo(whereFrom, singleToDo):
             deleted.remove(singleToDo)
             return "Deleted Successfully"
         else:
-            print("ERROR in Remove Single TODO")
-            print(timeNow())
+            logging.info("ERROR in Remove Single TODO")
+            logging.info(timeNow())
     except Exception as e:
+        logging.warning(f"{singleToDo} | is not in: {whereFrom} | e = {e}")
         return (f"{singleToDo} | is not in: {whereFrom} | e = {e}")
 
 # !! Function to combine all classesNCD 
 def combineNCD():
-    print(sys._getframe().f_code.co_name)
-    print(timeNow())
+    logging.info(sys._getframe().f_code.co_name)
+    logging.info(timeNow())
     global notCompleted, completed, deleted, allToDo
 
     allToDo = {"notCompleted": notCompleted, "completed": completed, "deleted": deleted}
-    print(" --- CombineNCD --- ")
-    print(allToDo)
-    print(timeNow())
+    logging.info(" --- CombineNCD --- ")
+    logging.info(allToDo)
+    logging.info(timeNow())
     return allToDo
    
 
-if __name__ == "__main__":
-#    app.run(debug=True)
-    print(sys._getframe().f_code.co_name)
-    ## File logging:
-    logApp = logging.basicConfig(format= '%(levelname)s: %(asctime)s:%(message)s', filename="appLog.log", encoding="utf-8", level=logging.DEBUG,  datefmt='%m/%d/%A %I:%M:%S %p')
 
-    logRequest = logging.basicConfig(format= '%(levelname)s: %(asctime)s:%(message)s', filename="webRequests.log", encoding="utf-8", level=logging.DEBUG,  datefmt='%m/%d/%A %I:%M:%S %p')
 
-    ch = logging.StreamHandler()
-    logApp.addHandler(ch)
-    logRequest.addHandler(ch)
 
-    logApp.info(timeNow())
-    logRequest.info(timeNow())
-    #print(timeNow())
-    app.run()
+# if __name__ == "__main__":
+# #    app.run(debug=True)
+#     logging.info(sys._getframe().f_code.co_name)
+#     ## File logging:
+#     logApp = logging.basicConfig(format= '%(levelname)s: %(asctime)s:%(message)s', filename="appLog.log", encoding="utf-8", level=logging.DEBUG,  datefmt='%m/%d/%A %I:%M:%S %p')
 
-    #.run("0.0.0.0", 8080)
-  
+#     logRequest = logging.basicConfig(format= '%(levelname)s: %(asctime)s:%(message)s', filename="webRequests.log", encoding="utf-8", level=logging.DEBUG,  datefmt='%m/%d/%A %I:%M:%S %p')
 
-    # #removeSingleTodo("notCompleted", "not3")
-    # #addSingleTodo('notCompleted',"notHIII")    
-    # ##removeSingleTodo('notCompleted',"notHIII")    
-    # addSingleTodo("completed", "com234pAAAAA!")
+#     ch = logging.StreamHandler()
+#     logApp.addHandler(ch)
+#     logRequest.addHandler(ch)
 
+#     logApp.info(timeNow())
+#     logRequest.info(timeNow())
+#     #logging.info(timeNow())
+#     app.run()
+
+#     #.run("0.0.0.0", 8080)
+ 
     
-    # writeToFile(allToDo)
+#     # writeToFile(allToDo)
