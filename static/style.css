@@ -1,0 +1,24 @@
+ul li {
+    /* margin-top: 10px; */
+    /* border-top: 1px solid rgb(255, 0, 0); */
+    /* border-bottom: 1px solid rgb(255,0,0); */
+
+}
+input[type="submit"] {
+    /* margin-top: 10px; */
+    margin-left: 3rem;
+    margin-right: 1.5rem;
+}
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(3); /* IE */
+  -moz-transform: scale(3); /* FF */
+  -webkit-transform: scale(3); /* Safari and Chrome */
+  -o-transform: scale(3); /* Opera */
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  /* margin-left: 5px; */
+  /* margin-right: 20px; */
+}
+
