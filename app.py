@@ -134,7 +134,7 @@ def setupLogging():
     print("Starting Up program")
  
     ## File logging:
-    logging.basicConfig(format= '%(levelname)s: %(asctime)s:%(message)s', filename="appLog.log", encoding="utf-8", level=logging.DEBUG,  datefmt='%m/%d/%A %I:%M:%S %p')
+    logging.basicConfig(format= '%(levelname)s: %(asctime)s:%(message)s', filename="appLog.log", level=logging.DEBUG,  datefmt='%m/%d/%A %I:%M:%S %p')
 
     # logRequest = logging.basicConfig(format= '%(levelname)s: %(asctime)s:%(message)s', filename="webRequests.log", encoding="utf-8", level=logging.DEBUG,  datefmt='%m/%d/%A %I:%M:%S %p')
     logging.info("<br/>----------------------------------------------------------------<br/>")
