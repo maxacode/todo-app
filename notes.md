@@ -8,7 +8,11 @@
 - Open a Pull Request
 - Wait for me to figure out what the heck a pull request is...
 
-## Flash 
+## GIT
+git push -u origin main
+
+## Flask
+
 -from flask import flask
 
 pip3 install flask

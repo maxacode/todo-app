@@ -525,7 +525,9 @@ textBox.addEventListener('click', (e) => {
         textBox.value = "";
     }
 });
-textBox.addEventListener('mouseout', () => { 
+// click out event
+
+textBox.addEventListener('focusout', () => { 
     if (textBox.value == "") {
         textBox.value = "Enter Here";
 }
