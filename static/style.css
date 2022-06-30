@@ -6,8 +6,8 @@ ul li {
 }
 input[type="submit"] {
     /* margin-top: 10px; */
-    margin-left: 3rem;
-    margin-right: 1.5rem;
+    margin-left: 25x;
+    margin-right: 10px;
 }
 input[type=checkbox]
 {
@@ -22,3 +22,14 @@ input[type=checkbox]
   /* margin-right: 20px; */
 }
 
+.btn-dark {
+    background-color: #0063c6;
+    border-color: rgba(0, 197, 43, 0.779);
+    border-width: 4px;
+}
+
+.btn-danger 
+.form-check-input { 
+    margin-right: 25px;
+    margin-left:25px
+}

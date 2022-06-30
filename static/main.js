@@ -4,7 +4,7 @@
 1. add text-decoration: line-through
 
 2. Add another X in deleted for permanent removal. 
-
+f
 3. Add alert Dialog like in Book Tracker. 
 
 4. Validate that Input is not empty. 
@@ -22,11 +22,8 @@ function ct(variable) {
 function cl(variable) {
     return console.log(variable);
 };
-
-//my name diff color. 
-var myname = document.getElementById('my-name');
-myname.style.color = 'pink';
-myname.style.fontWeight = 'bold';
+ 
+ 
 var form = document.getElementById('addForm');
 var itemList = document.getElementById('items');
 var textBox = document.getElementById('textBox');
@@ -182,17 +179,22 @@ class UI {
             newLi.style = "color:rgb(3, 75,231); font-size:25px";
             
         var completedButton = document.createElement('input');
-            completedButton.type = 'checkbox';
+            completedButton.type = 'checkbox'; 
             //Adding del button element to new item.
             completedButton.className = `form-check-input ${completedORundo}`;
             completedButton.checked = checkedOrNoCheck;
             completedButton.title = "Mark Completed";
+            //# padding on deleteButton
+            completedButton.style = "margin-left: 0px";
+             
+            
 
         var deleteButton = document.createElement('input');
             deleteButton.type = 'Submit';
             deleteButton.value = "X";
             deleteButton.className = 'btn btn-danger delete';
             deleteButton.title = "Delete ToDo"
+            deleteButton.style = "margin-left:30px";
         
         //newLi.appendChild(document.createTextNode(itemToAdd));
         //adding text node. 
@@ -562,11 +564,24 @@ searchBox.addEventListener('input', filter);
 //apiAllToDos
 document.addEventListener('DOMContentLoaded', API.apiAllToDos);
 //document.addEventListener('DOMContentLoaded', UI.getToDoDeleted);
+var timeNow = document.getElementById("timenow");
 
-// when submit is pressed
-form.addEventListener('submit', (e) => {
+timeNow.addEventListener('click', (e) => {
+    cl("Test")
     e.preventDefault();
-    const itemToAdd = textBox.value;
+    var today = new Date();
+    const itemToAdd = ((today.getHours()) + ":" + today.getMinutes()) + " --> " + (today.getHours() +2) + ":" + today.getMinutes()
+    UI.addItemToUI(itemToAdd, 'complete', '')
+    API.apiActions("notCompleted", itemToAdd);
+    API.apiSave();
+    setTimeout(function() {alert("Time is up!");}, 1000 * 60 * 60 * 1.8); // 2 hours
+
+})
+// when submit is pressed
+var submitButton = document.getElementById("submitButton");
+submitButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    var itemToAdd = textBox.value;
     //console.log(itemToAdd);
     var itemToAddFiltered = itemToAdd.replace(/\//g, "-");
 
@@ -576,6 +591,6 @@ form.addEventListener('submit', (e) => {
     //Storage.addItemToStorage(itemToAdd);
     // cl(itemToAddFiltered);
     API.apiActions("notCompleted", itemToAddFiltered);
-    API.apiSave();
+    cl(API.apiSave())
 
 });

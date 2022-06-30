@@ -11,6 +11,13 @@
 ## GIT
 git push -u origin main
 
+git fetch --all
+
+git reset --hard HEAD
+git clean -f -d
+git pull
+
+
 ## Flask
 
 -from flask import flask
@@ -24,6 +31,9 @@ apt install python3-flask
 pip3 install -r requirements.txt
 export FLASK_APP=app.py
 export FLASK_ENV=development
+export FLASK_RUN_EXTRA_FILES=file1:templates/index.html/file2:static/main.js/file3:static/style.css
+
+
 flask run -h 0.0.0.0 -p 8080
 flask run
 

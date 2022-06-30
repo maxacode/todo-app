@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../ToDo-JS/CanaryImg"
+		}
+	],
+    "settings": {
+        "liveServer.settings.multiRootWorkspaceName": "ToDo-JS-V2"
+    }
+}
