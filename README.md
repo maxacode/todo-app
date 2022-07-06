@@ -1,7 +1,9 @@
 # ToDo-Web App w/ Flask and Javascript 
 
-## Used this on a daily bases to track items. 
- 
+## Use this on a daily bases to track items, sample running app here: [https://ToDo.Hacked.Fyi](https://todo.hacked.fyi)
+
+# Web and Flask App logs in [appLog.log](appLog.log)
+
 # Instructions: 
 - pip3 install -r requirements.txt
 - export FLASK_APP=app.py
@@ -11,6 +13,7 @@
 # Future Release's:
 - Zero Interaction install/run via Git and CyberPanel. 
 - Setup.py
+- SQLAlchemy for object-relational mapping DB.
 
 # Screenshot of Interface. 
 
